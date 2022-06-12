@@ -28,13 +28,13 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserDto createUser(AddUserRequest request) {
         if(emailAlreadyExist(request.getEmail())){
-            throw new EmailAlreadyExistException("email already exist");
+            throw new EmailAlreadyExistException("Email already exist");
         }
         if(!request.getPassword().matches(request.getConfirmPassword())){
-            throw new PasswordsMustMatchException("password must match");
+            throw new PasswordsMustMatchException("Passwords must match");
         }
         if(Objects.equals(request.getFirstName(), "") || Objects.equals(request.getLastName(), "") || Objects.equals(request.getEmail(), "") || Objects.equals(request.getPassword(), "") || Objects.equals(request.getConfirmPassword(), "")){
-            throw new NullFieldException("please fill out filed");
+            throw new NullFieldException("Please fill out fields");
         }
 
         User user = User.builder()
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public FindUserResponse findUser(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(()-> new UserNotFoundException("user not found"));
+        User user = userRepository.findByEmail(email).orElseThrow(()-> new UserNotFoundException("User not found"));
 
         FindUserResponse response = new FindUserResponse();
         response.setEmail(user.getEmail());
@@ -77,32 +77,32 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public String deleteUser(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(()-> new UserNotFoundException("user not found"));
+        User user = userRepository.findByEmail(email).orElseThrow(()-> new UserNotFoundException("User not found"));
         userRepository.delete(user);
-        return "user deleted";
+        return "User deleted";
     }
 
     @Override
     public String updateUser(String email, UpdateProfileRequest updateRequest) {
-        User user = userRepository.findByEmail(email).orElseThrow(()->new UserNotFoundException("user not found"));
+        User user = userRepository.findByEmail(email).orElseThrow(()->new UserNotFoundException("User not found"));
         if (updateRequest.getFirstName() != null) {
             user.setFirstName(updateRequest.getFirstName());
         }
         if (updateRequest.getLastName() != null) user.setLastName(updateRequest.getLastName());
         userRepository.save(user);
-        return "profile updated";
+        return "Profile updated";
     }
 
     @Override
     public String login(LoginRequest loginRequest) {
 
-        User user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(()-> new UserNotFoundException("user not found"));
+        User user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(()-> new UserNotFoundException("User not found"));
         if(!user.getPassword().matches(loginRequest.getPassword())){
-            throw new UserNameOrPasswordIncorrectException("username or password invalid");
+            throw new UserNameOrPasswordIncorrectException("Username or password invalid");
         }
         user.setLoginStatus(true);
         userRepository.save(user);
-        return "login successful";
+        return "Login successful";
     }
 
 }
