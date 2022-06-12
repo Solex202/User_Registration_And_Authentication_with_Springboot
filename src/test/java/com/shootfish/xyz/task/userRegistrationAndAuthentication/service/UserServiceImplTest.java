@@ -44,7 +44,25 @@ class UserServiceImplTest {
     }
 
     @Test
-    void testThatUserCannotBeCreatedIfAnyFieldIsEmpty(){
+    void testThatUserCannotBeCreatedIfEmailIsNotA_Regex_throwException(){
+        //given
+        AddUserRequest request = AddUserRequest
+                .builder()
+                .firstName("Lota")
+                .lastName("Chukwu")
+                .email("lota")
+                .password("lota234")
+                .confirmPassword("lota234")
+                .build();
+        //when
+        userService.createUser(request);
+        //assert
+        assertThat(userService.getAllUser().size(), is(1));
+        assertThrows(EmailValidationException.class,()->userService.createUser(request));
+
+    }
+    @Test
+    void testThatUserCannotBeCreatedIfAnyFieldIsEmpty_throwException(){
         //given
         AddUserRequest request = AddUserRequest
                 .builder()
@@ -58,6 +76,14 @@ class UserServiceImplTest {
         assertThrows(NullFieldException.class,()-> userService.createUser(request));
 
     }
+
+
+//    @Test
+//    public void testThatUserCanBeCreatedWhenPasswordIsGreaterThan8AndContainsChars(){
+//        //given
+//        AddUserRequest userRequest = AddUserRequest.builder().password("deoy").email("lota@gmail.com").build();
+//        assertThrows(InvalidPasswordException.class, ()->userService.createUser(userRequest));
+//    }
 
     @Test
     void testThatUserCannotCreateAccount_if_passwordsDontMatch_throwException(){
@@ -125,7 +151,7 @@ class UserServiceImplTest {
 
         String loginResponse = userService.login(loginRequest);
 
-        assertThat(loginResponse, is("login successful"));
+        assertThat(loginResponse, is("Login successful"));
 
     }
 
@@ -248,7 +274,7 @@ class UserServiceImplTest {
         String message = userService.deleteUser("mercy@gmail.com");
 
         assertThat(userService.getAllUser().size(), is(1));
-        assertThat(message, is("user deleted"));
+        assertThat(message, is("User deleted"));
 
     }
 
@@ -320,7 +346,7 @@ class UserServiceImplTest {
         FindUserResponse response2 = userService.findUser(request2.getEmail());
 
         //        assert
-        assertThat(response, is("profile updated"));
+        assertThat(response, is("Profile updated"));
         assertThat(response2.getFirstName(),is("joel"));
         assertThat(response2.getLastName(),is("chioma"));
         assertThat(response2.getEmail(),is("mercy@gmail.com"));
@@ -362,7 +388,7 @@ class UserServiceImplTest {
         FindUserResponse response2 = userService.findUser(request2.getEmail());
 
         //        assert
-        assertThat(response, is("profile updated"));
+        assertThat(response, is("Profile updated"));
         assertThat(response2.getFirstName(),is("mercy"));
         assertThat(response2.getLastName(),is("okanga"));
         assertThat(response2.getEmail(),is("mercy@gmail.com"));

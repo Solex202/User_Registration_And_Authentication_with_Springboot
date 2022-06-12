@@ -30,9 +30,12 @@ public class UserServiceImpl implements UserService{
         if(emailAlreadyExist(request.getEmail())){
             throw new EmailAlreadyExistException("Email already exist");
         }
+//        if(!passwordIsValid(request.getConfirmPassword()) ) throw new InvalidPasswordException("invalid password");
+
         if(!request.getPassword().matches(request.getConfirmPassword())){
             throw new PasswordsMustMatchException("Passwords must match");
         }
+//        if(!passwordIsValid(request.getPassword()) || passwordIsValid(request.getConfirmPassword())) throw new InvalidPasswordException("invalid password");
         if(Objects.equals(request.getFirstName(), "") || Objects.equals(request.getLastName(), "") || Objects.equals(request.getEmail(), "") || Objects.equals(request.getPassword(), "") || Objects.equals(request.getConfirmPassword(), "")){
             throw new NullFieldException("Please fill out fields");
         }
@@ -57,6 +60,15 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<User> getAllUser() {
         return userRepository.findAll();
+    }
+
+    private boolean passwordIsValid(String password) {
+        String isValid = "^(?=.*[0-9])"
+                + "(?=.*[a-z])(?=.*[A-Z])"
+                + "(?=.*[@#$%^&+=])"
+                + "(?=\\S+$).{12,20}$";
+
+        return password.matches(isValid);
     }
 
     @Override
