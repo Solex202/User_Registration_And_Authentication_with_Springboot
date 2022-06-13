@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService{
     private ModelMapper mapper = new ModelMapper();
 
     @Override
-    public UserDto createUser(AddUserRequest request) {
+    public String createUser(AddUserRequest request) {
         if(emailAlreadyExist(request.getEmail())){
             throw new EmailAlreadyExistException("Email already exist");
         }
@@ -54,7 +54,8 @@ public class UserServiceImpl implements UserService{
 
     userRepository.save(user);
 
-    return mapper.map(user, UserDto.class);
+//    return mapper.map(user, UserDto.class);
+        return "Saved succesffuly!";
     }
 
     private boolean emailAlreadyExist(String email) {

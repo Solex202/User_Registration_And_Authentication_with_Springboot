@@ -11,7 +11,7 @@ import java.util.List;
 
 
 public interface UserService {
-    UserDto createUser(AddUserRequest request);
+    String createUser(AddUserRequest request);
 
     List<User> getAllUser();
 
