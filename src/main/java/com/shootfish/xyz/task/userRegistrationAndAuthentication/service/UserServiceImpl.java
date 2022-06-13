@@ -124,6 +124,7 @@ public class UserServiceImpl implements UserService{
         }
         user.setLoginStatus(true);
         userRepository.save(user);
+        log.info("..... done with login");
         return "Login successful";
     }
 
