@@ -43,21 +43,21 @@ class UserServiceImplTest {
 
     }
 
-//    @Test
-//    void testThatUserCannotBeCreatedIfEmailIsNotA_Regex_throwException(){
-//        //given
-//        AddUserRequest request = AddUserRequest
-//                .builder()
-//                .firstName("Lota")
-//                .lastName("Chukwu")
-//                .email("lota")
-//                .password("lota234")
-//                .confirmPassword("lota234")
-//                .build();
-//        //assert
-//        assertThrows(EmailValidationException.class,()->userService.createUser(request));
-//
-//    }
+    @Test
+    void testThatUserCannotBeCreatedIfEmailIsNotA_Regex_throwException(){
+        //given
+        AddUserRequest request = AddUserRequest
+                .builder()
+                .firstName("Lota")
+                .lastName("Chukwu")
+                .email("lota")
+                .password("lota234")
+                .confirmPassword("lota234")
+                .build();
+        //assert
+        assertThrows(EmailValidationException.class,()->userService.createUser(request));
+
+    }
     @Test
     void testThatUserCannotBeCreatedIfAnyFieldIsEmpty_throwException(){
         //given
