@@ -116,12 +116,12 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest request){
         try{
-            ApiResponse response = ApiResponse
-                    .builder()
-                    .isSuccessful(true)
-                    .message("" + userService.login(request))
-                    .build();
-            return new ResponseEntity<>(response, HttpStatus.OK);
+//            ApiResponse response = ApiResponse
+//                    .builder()
+//                    .isSuccessful(true)
+//                    .message("" + userService.login(request))
+//                    .build();
+            return new ResponseEntity<>(userService.login(request), HttpStatus.OK);
         }catch (UserNotFoundException | UserNameOrPasswordIncorrectException ex){
             ApiResponse response = ApiResponse
                     .builder()
