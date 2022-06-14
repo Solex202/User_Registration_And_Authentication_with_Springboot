@@ -33,7 +33,7 @@ public class UserController {
                     .build();
 
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch(EmailAlreadyExistException | PasswordsMustMatchException | NullFieldException ex){
+        }catch(EmailAlreadyExistException | PasswordsMustMatchException | NullFieldException | InvalidPasswordException ex){
             ApiResponse response = ApiResponse
                     .builder()
                     .isSuccessful(false)

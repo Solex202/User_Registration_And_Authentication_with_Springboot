@@ -30,18 +30,19 @@ public class UserServiceImpl implements UserService{
         if(emailAlreadyExist(request.getEmail())){
             throw new EmailAlreadyExistException("Email already exist");
         }
-        //todo email and password validation
-//        if(!emailIsValid(request.getEmail())){
-//            throw new EmailValidationException("email must contain a character, number, uppercase, lower case");
-//        }
-//        if(!passwordIsValid(request.getConfirmPassword()) ) throw new InvalidPasswordException("invalid password");
-//        if(!passwordIsValid(request.getPassword()) || passwordIsValid(request.getConfirmPassword())) throw new InvalidPasswordException("invalid password");
+        if(Objects.equals(request.getFirstName(), "") || Objects.equals(request.getLastName(), "") || Objects.equals(request.getEmail(), "") || Objects.equals(request.getPassword(), "") || Objects.equals(request.getConfirmPassword(), "")){
+            throw new NullFieldException("Please fill out fields");
+        }
+        //todo email  validation
+        if(!emailIsValid(request.getEmail())){
+            throw new EmailValidationException("Invalid email format");
+        }
+        if(request.getPassword().length() < 8 || request.getConfirmPassword().length() < 8){
+            throw new InvalidPasswordException("Invalid password");
+        }
 
         if(!request.getPassword().matches(request.getConfirmPassword())){
             throw new PasswordsMustMatchException("Passwords must match");
-        }
-        if(Objects.equals(request.getFirstName(), "") || Objects.equals(request.getLastName(), "") || Objects.equals(request.getEmail(), "") || Objects.equals(request.getPassword(), "") || Objects.equals(request.getConfirmPassword(), "")){
-            throw new NullFieldException("Please fill out fields");
         }
 
         User user = User.builder()
@@ -76,7 +77,7 @@ public class UserServiceImpl implements UserService{
 //        return password.matches(isValid);
 //    }
     private boolean emailIsValid(String email) {
-        String isValid = "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$/;";
+        String isValid = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\\.[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+)*@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
 
         return email.matches(isValid);
     }

@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
@@ -47,21 +46,21 @@ class UserServiceImplTest {
 
     }
 
-//    @Test
-//    void testThatUserCannotBeCreatedIfEmailIsNotA_Regex_throwException(){
-//        //given
-//        AddUserRequest request = AddUserRequest
-//                .builder()
-//                .firstName("Lota")
-//                .lastName("Chukwu")
-//                .email("lota")
-//                .password("lota2345")
-//                .confirmPassword("lota2345")
-//                .build();
-//        //assert
-//        assertThrows(EmailValidationException.class,()->userService.createUser(request));
-//
-//    }
+    @Test
+    void testThatUserCannotBeCreatedIfEmailIsNotA_Regex_throwException(){
+        //given
+        AddUserRequest request = AddUserRequest
+                .builder()
+                .firstName("Lota")
+                .lastName("Chukwu")
+                .email("lota")
+                .password("lota2345")
+                .confirmPassword("lota2345")
+                .build();
+        //assert
+        assertThrows(EmailValidationException.class,()->userService.createUser(request));
+
+    }
     @Test
     void testThatUserCannotBeCreatedIfAnyFieldIsEmpty_throwException(){
         //given
@@ -79,12 +78,19 @@ class UserServiceImplTest {
     }
 
 
-//    @Test
-//    public void testThatUserCanBeCreatedWhenPasswordIsGreaterThan8AndContainsChars(){
-//        //given
-//        AddUserRequest userRequest = AddUserRequest.builder().password("deoy").email("lota@gmail.com").build();
-//        assertThrows(InvalidPasswordException.class, ()->userService.createUser(userRequest));
-//    }
+    @Test
+    public void testThatUserCannotBeCreatedWhenPasswordIsLessThan8AndContainsChars(){
+        //given
+        AddUserRequest userRequest = AddUserRequest
+                .builder()
+                .firstName("Lota")
+                .lastName("Chukwu")
+                .email("lota@gmail.com")
+                .password("lota23")
+                .confirmPassword("lota23")
+                .build();
+        assertThrows(InvalidPasswordException.class, ()->userService.createUser(userRequest));
+    }
 
     @Test
     void testThatUserCannotCreateAccount_if_passwordsDontMatch_throwException(){
@@ -96,7 +102,6 @@ class UserServiceImplTest {
                 .email("lota@gmail.com")
                 .password("lota2345")
                 .confirmPassword("lota23456")
-//                .gender(Gender.MALE)
                 .build();
         //assert
         assertThrows(PasswordsMustMatchException.class,()-> userService.createUser(request));
@@ -301,7 +306,6 @@ class UserServiceImplTest {
                 .email("mercy@gmail.com")
                 .password("mercySaidNo")
                 .confirmPassword("mercySaidNo")
-//                .gender(Gender.FEMALE)
                 .build();
 
         userService.createUser(request2);
