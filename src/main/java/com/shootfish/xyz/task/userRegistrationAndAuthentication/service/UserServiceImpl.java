@@ -31,9 +31,9 @@ public class UserServiceImpl implements UserService{
             throw new EmailAlreadyExistException("Email already exist");
         }
         //todo email and password validation
-        if(!emailIsValid(request.getEmail())){
-            throw new EmailValidationException("email must contain a character, number, uppercase, lower case");
-        }
+//        if(!emailIsValid(request.getEmail())){
+//            throw new EmailValidationException("email must contain a character, number, uppercase, lower case");
+//        }
 //        if(!passwordIsValid(request.getConfirmPassword()) ) throw new InvalidPasswordException("invalid password");
 //        if(!passwordIsValid(request.getPassword()) || passwordIsValid(request.getConfirmPassword())) throw new InvalidPasswordException("invalid password");
 
