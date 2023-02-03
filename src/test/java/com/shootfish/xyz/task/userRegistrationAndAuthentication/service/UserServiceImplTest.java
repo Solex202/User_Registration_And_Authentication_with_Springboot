@@ -47,7 +47,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void testThatUserCannotBeCreatedIfEmailIsNotA_Regex_throwException(){
+    void testThatUserCannotBeCreatedIfEmailIsNotValid_throwException(){
         //given
         AddUserRequest request = AddUserRequest
                 .builder()
@@ -184,6 +184,34 @@ class UserServiceImplTest {
         assertThrows(UserNameOrPasswordIncorrectException.class,()-> userService.login(loginRequest));
     }
 
+//    @Test
+//    void testThatUserCanLogOut(){
+//        //given
+//        AddUserRequest request = AddUserRequest
+//                .builder()
+//                .firstName("Lota")
+//                .lastName("Chukwu")
+//                .email("lota@gmail.com")
+//                .password("lota2345")
+//                .confirmPassword("lota2345")
+//                .build();
+//        //when
+//        userService.createUser(request);
+//
+//        LoginRequest loginRequest = LoginRequest
+//                .builder()
+//                .email("lota@gmail.com")
+//                .password("lota2345")
+//                .build();
+//
+//        String loginResponse = userService.login(loginRequest);
+//
+//        assertThat(loginResponse, is("Login successful"));
+//
+//        userService.logOut();
+//
+//    }
+
     @Test
     void testThatAdminUserCanFindUserByEmail() {
         //given
@@ -211,6 +239,7 @@ class UserServiceImplTest {
         assertThat(userService.getAllUser().size(), is(2));
 
         FindUserResponse response = userService.findUser(request2.getEmail());
+        //assert
         assertThat(response.getEmail(), is("ginabby@gmail.com"));
         assertThat(response.getFirstName(),is("ginika"));
         assertThat(response.getLastName(),is("onwuka"));
@@ -240,11 +269,11 @@ class UserServiceImplTest {
                 .password("ginagina")
                 .confirmPassword("ginagina")
                 .build();
-
+        //when
         userService.createUser(request2);
 
         assertThat(userService.getAllUser().size(), is(2));
-
+        //assert
         assertThrows(UserNotFoundException.class,()-> userService.findUser("fumi@gmail.com"));
 
     }
@@ -272,16 +301,15 @@ class UserServiceImplTest {
                 .password("mercySaidNo")
                 .confirmPassword("mercySaidNo")
                 .build();
-
+        //when
         userService.createUser(request2);
 
         assertThat(userService.getAllUser().size(), is(2));
 
         String message = userService.deleteUser("mercy@gmail.com");
-
+        //assert
         assertThat(userService.getAllUser().size(), is(1));
         assertThat(message, is("User deleted"));
-
     }
 
     @Test
@@ -308,8 +336,9 @@ class UserServiceImplTest {
                 .confirmPassword("mercySaidNo")
                 .build();
 
+        //when
         userService.createUser(request2);
-
+        //assert
         assertThat(userService.getAllUser().size(), is(2));
 
         assertThrows(UserNotFoundException.class, ()-> userService.deleteUser("femi@gmail.com"));
@@ -338,7 +367,7 @@ class UserServiceImplTest {
                 .password("mercySaidNo")
                 .confirmPassword("mercySaidNo")
                 .build();
-
+        //when
         userService.createUser(request2);
 
         assertThat(userService.getAllUser().size(), is(2));
@@ -350,7 +379,7 @@ class UserServiceImplTest {
 
         FindUserResponse response2 = userService.findUser(request2.getEmail());
 
-        //        assert
+        //assert
         assertThat(response, is("Profile updated"));
         assertThat(response2.getFirstName(),is("joel"));
         assertThat(response2.getLastName(),is("chioma"));
@@ -380,7 +409,7 @@ class UserServiceImplTest {
                 .password("mercySaidNo")
                 .confirmPassword("mercySaidNo")
                 .build();
-
+        //when
         userService.createUser(request2);
 
         assertThat(userService.getAllUser().size(), is(2));
@@ -392,7 +421,7 @@ class UserServiceImplTest {
 
         FindUserResponse response2 = userService.findUser(request2.getEmail());
 
-        //        assert
+        //assert
         assertThat(response, is("Profile updated"));
         assertThat(response2.getFirstName(),is("mercy"));
         assertThat(response2.getLastName(),is("okanga"));

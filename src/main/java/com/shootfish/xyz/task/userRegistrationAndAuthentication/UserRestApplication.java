@@ -13,8 +13,6 @@ public class UserRestApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(UserRestApplication.class, args);
-
-
 	}
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {

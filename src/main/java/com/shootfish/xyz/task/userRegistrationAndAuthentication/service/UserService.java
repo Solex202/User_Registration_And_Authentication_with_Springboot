@@ -25,4 +25,6 @@ public interface UserService {
     String updateUser(String email, UpdateProfileRequest updateRequest);
 
     String login(LoginRequest loginRequest);
+
+    void logOut();
 }

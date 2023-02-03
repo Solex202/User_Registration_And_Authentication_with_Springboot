@@ -27,6 +27,23 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public String createUser(AddUserRequest request) {
+        validateCreateUserRequest(request);
+
+        User user = User.builder()
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .confirmPassword(request.getConfirmPassword())
+                .build();
+
+    userRepository.save(user);
+
+//    return mapper.map(user, UserDto.class);
+        return "Saved succesffuly!";
+    }
+
+    private void validateCreateUserRequest(AddUserRequest request) {
         if(emailAlreadyExist(request.getEmail())){
             throw new EmailAlreadyExistException("Email already exist");
         }
@@ -44,19 +61,6 @@ public class UserServiceImpl implements UserService{
         if(!request.getPassword().matches(request.getConfirmPassword())){
             throw new PasswordsMustMatchException("Passwords must match");
         }
-
-        User user = User.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .email(request.getEmail())
-                .password(request.getPassword())
-                .confirmPassword(request.getConfirmPassword())
-                .build();
-
-    userRepository.save(user);
-
-//    return mapper.map(user, UserDto.class);
-        return "Saved succesffuly!";
     }
 
     private boolean emailAlreadyExist(String email) {
@@ -121,12 +125,17 @@ public class UserServiceImpl implements UserService{
 
         User user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(()-> new UserNotFoundException("User not found"));
         if(!user.getPassword().matches(loginRequest.getPassword())){
-            throw new UserNameOrPasswordIncorrectException("Username or password invalid");
+            throw new UserNameOrPasswordIncorrectException("Email or password invalid");
         }
         user.setLoginStatus(true);
         userRepository.save(user);
         log.info("..... done with login");
         return "Login successful";
+    }
+
+    @Override
+    public void logOut() {
+
     }
 
 }
